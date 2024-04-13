@@ -1,30 +1,29 @@
 import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
-import OTPTextView from 'react-native-otp-textinput';
+import { TextInput } from 'react-native-gesture-handler';
 
-const OtpInputScreen = ({ dispatcher }) => {
-	const [otp, setOtp] = useState('');
+const NameInputScreen = () => {
+	const [name, setName] = useState('');
 	const [disabled, setDisabled] = useState(true);
 
 	useEffect(() => {
-		if (otp.length == 4) {
+		if (name.length > 0) {
 			setDisabled(false);
 		} else {
 			setDisabled(true);
 		}
-	}, [otp]);
+	}, [name]);
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Enter the OTP</Text>
+			<Text style={styles.title}>Personal Details</Text>
 
-			<OTPTextView
-				handleTextChange={setOtp}
-				keyboardType='numeric'
-				tintColor='#FF0000'
+			<TextInput
+				placeholder='Enter name'
+				value={name}
+				onChangeText={(newName) => setName(newName)}
+				style={styles.input}
 			/>
-
-			<Text style={styles.resendText}>Resend OTP in 60s</Text>
 
 			<Pressable
 				style={[
@@ -33,12 +32,10 @@ const OtpInputScreen = ({ dispatcher }) => {
 				]}
 				onPress={() => {
 					setDisabled(true);
-					// TODO: OTP Checking logic
-					dispatcher({ type: 'OTP_VERIFIED' });
 				}}
 			>
 				<Text style={styles.btnText} disabled={disabled}>
-					Verify OTP
+					Done
 				</Text>
 			</Pressable>
 		</View>
@@ -56,10 +53,13 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		textAlign: 'center',
 	},
-	resendText: {
-		fontSize: 16,
-		marginTop: 32,
-		marginLeft: 'auto',
+	input: {
+		borderWidth: 1,
+		paddingVertical: 16,
+		paddingHorizontal: 24,
+		borderRadius: 16,
+		width: '100%',
+		borderColor: '#EEEEEE',
 	},
 	button: {
 		borderRadius: 16,
@@ -77,4 +77,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default OtpInputScreen;
+export default NameInputScreen;

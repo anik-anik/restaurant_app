@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo, useRef } from 'react';
+import { useState, useCallback, useMemo, useRef, useReducer } from 'react';
 import { View, Text, StyleSheet, TextInput, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -8,11 +8,24 @@ import {
 } from '@gorhom/bottom-sheet';
 
 import OtpInputScreen from './otp-input';
+import NameInputScreen from './name-input';
+
+const reducer = (_, action) => {
+	if (action.type == 'OTP_VERIFIED') {
+		return {
+			currentScreen: 'NAME',
+		};
+	}
+
+	throw new Error('Unknown action.');
+};
 
 const HomeScreen = () => {
 	const [email, setEmail] = useState('');
 
 	const bottomSheetModalRef = useRef(null);
+
+	const [state, dispatch] = useReducer(reducer, { currentScreen: 'OTP' });
 
 	const snapPoints = useMemo(() => ['25%', '50%'], []);
 
@@ -64,7 +77,11 @@ const HomeScreen = () => {
 				onChange={handleSheetChanges}
 			>
 				<BottomSheetView>
-					<OtpInputScreen />
+					{state.currentScreen === 'OTP' ? (
+						<OtpInputScreen dispatcher={dispatch} />
+					) : (
+						<NameInputScreen />
+					)}
 				</BottomSheetView>
 			</BottomSheetModal>
 		</BottomSheetModalProvider>
