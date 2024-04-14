@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-const DashoardScreen = () => {
+const DashoardScreen = ({ navigation }) => {
 	const user = {
 		id: 1,
 		fName: 'Anik',
@@ -31,7 +31,10 @@ const DashoardScreen = () => {
 				</Pressable>
 			</View>
 			<View style={styles.content}>
-				<Pressable style={styles.offerContainer}>
+				<Pressable
+					style={styles.offerContainer}
+					onPress={() => navigation.navigate('TypeSelection')}
+				>
 					<View style={styles.offerTextbox}>
 						<Text style={styles.offerText1}>
 							Get ready to save big!
