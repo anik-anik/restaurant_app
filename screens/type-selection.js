@@ -1,4 +1,5 @@
-import { Pressable, FlatList, Text, Dimensions } from 'react-native';
+import { Pressable, FlatList, Dimensions } from 'react-native';
+import { Image } from 'expo-image';
 
 const TypeSelectionScreen = ({ navigation }) => {
 	const numOfColumns = 2;
@@ -7,19 +8,23 @@ const TypeSelectionScreen = ({ navigation }) => {
 	const data = [
 		{
 			title: 'Breakfast',
-			image: '',
+			time: '(8am to 11am)',
+			image: require('../assets/breakfast.jpeg'),
 		},
 		{
 			title: 'Lunch',
-			image: '',
-		},
-		{
-			title: 'Dinner',
-			image: '',
+			time: '(12 noon to 2pm)',
+			image: require('../assets/lunch.jpeg'),
 		},
 		{
 			title: 'Snacks',
-			image: '',
+			time: '(4pm to 6pm)',
+			image: require('../assets/snacks.jpeg'),
+		},
+		{
+			title: 'Dinner',
+			time: '(8pm to 11pm)',
+			image: require('../assets/dinner.jpeg'),
 		},
 	];
 
@@ -33,11 +38,21 @@ const TypeSelectionScreen = ({ navigation }) => {
 					onPress={() => {
 						navigation.navigate('ReservationDetails', {
 							mealType: item.title,
+							time: item.time,
 						});
 					}}
 					style={{ height: size, width: size }}
 				>
-					<Text>{item.title}</Text>
+					<Image
+						source={item.image}
+						style={{
+							height: size - 48,
+							width: size - 48,
+							margin: 4,
+							borderRadius: 16,
+						}}
+						contentFit='cover'
+					/>
 				</Pressable>
 			)}
 			style={{ flex: 1, backgroundColor: '#FFFFFF', padding: 16 }}

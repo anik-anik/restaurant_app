@@ -20,12 +20,20 @@ const reducer = (_, action) => {
 	throw new Error('Unknown action.');
 };
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({ route, navigation }) => {
+	const currScreen = route.params
+		? route.params.currScreen
+			? route.params.currScreen
+			: 'OTP'
+		: 'OTP';
+
 	const [email, setEmail] = useState('');
 
 	const bottomSheetModalRef = useRef(null);
 
-	const [state, dispatch] = useReducer(reducer, { currentScreen: 'OTP' });
+	const [state, dispatch] = useReducer(reducer, {
+		currentScreen: currScreen ?? 'OTP',
+	});
 
 	const snapPoints = useMemo(() => ['25%', '50%'], []);
 

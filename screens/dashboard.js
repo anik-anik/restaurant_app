@@ -1,6 +1,6 @@
-import { useCallback } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Image } from 'expo-image';
 
 const DashoardScreen = ({ navigation }) => {
 	const user = {
@@ -12,7 +12,9 @@ const DashoardScreen = ({ navigation }) => {
 	const insets = useSafeAreaInsets();
 
 	const handleLogout = () => {
-		// TODO: Logout Shit
+		navigation.navigate('Home', {
+			currScreen: 'OTP',
+		});
 	};
 
 	return (
@@ -25,7 +27,9 @@ const DashoardScreen = ({ navigation }) => {
 					},
 				]}
 			>
-				<Text style={styles.title}>Hi, {user.fName} 👋</Text>
+				<Text style={[styles.title, { width: 'auto' }]}>
+					Hi, {user.fName} 👋
+				</Text>
 				<Pressable style={styles.button} onPress={handleLogout}>
 					<Text style={styles.btnText}>Logout</Text>
 				</Pressable>
@@ -66,10 +70,32 @@ const DashoardScreen = ({ navigation }) => {
 
 				<View style={styles.photosContainer}>
 					<Text style={styles.title}>Photos</Text>
+
+					<Image
+						source={require('../assets/food.jpeg')}
+						style={styles.image}
+						contentFit='cover'
+					/>
+					<Image
+						source={require('../assets/ambience.jpeg')}
+						style={styles.image}
+						contentFit='cover'
+					/>
 				</View>
 
 				<View style={styles.photosContainer}>
 					<Text style={styles.title}>Menu</Text>
+
+					<Image
+						source={require('../assets/menu1.jpeg')}
+						style={styles.image}
+						contentFit='cover'
+					/>
+					<Image
+						source={require('../assets/menu2.jpeg')}
+						style={styles.image}
+						contentFit='cover'
+					/>
 				</View>
 			</View>
 		</View>
@@ -91,6 +117,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 24,
+		width: '100%',
 	},
 	button: {
 		borderRadius: 16,
@@ -170,6 +197,14 @@ const styles = StyleSheet.create({
 	photosContainer: {
 		marginTop: 32,
 		marginBottom: 16,
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+	},
+	image: {
+		height: 100,
+		width: 100,
+		margin: 8,
+		borderRadius: 16,
 	},
 });
 

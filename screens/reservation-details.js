@@ -1,27 +1,33 @@
 import { useState } from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Pressable, Button } from 'react-native';
 import NumberInput from 'react-native-input-spinner';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from '@react-native-community/datetimepicker';
 
 const ReservationDetailsScreen = ({ route, navigation }) => {
+	const [showDatePicker, setShowDatePicker] = useState(false);
+	const [showTimePicker, setShowTimePicker] = useState(false);
 	const [noOfPeople, setNoOfPeople] = useState(1);
 	const [date, setDate] = useState(new Date());
 	const [time, setTime] = useState(new Date());
 
-	const { mealType } = route.params;
+	const { mealType, time: mealTime } = route.params;
+
+	const foodTypeFact = {
+		Breakfast:
+			'A balanced breakfast can include a variety of foods like whole grains, protein, fruits, and dairy to fuel your body and improve cognitive function.',
+		Lunch: 'Lunch is a midday meal that provides an essential energy boost and a moment of respite during the day, offering an opportunity to refuel and recharge for the afternoon ahead.',
+		Dinner: 'Dinner is often considered the heartiest meal of the day, bringing family and friends together to share nourishing dishes and create lasting memories.',
+		Snacks: 'Snacks are convenient and enjoyable treats that satisfy our cravings between meals, offering a wide range of flavours and textures to suit every palate.',
+	};
 
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<Text style={styles.title}>{mealType}</Text>
-				<Text style={styles.description}>(8am to 11am)</Text>
+				<Text style={styles.description}>{mealTime}</Text>
 			</View>
 			<View style={styles.content}>
-				<Text>
-					A balanced breakfast can include a variety of foods like
-					whole grains, protein, fruits, and dairy to fuel your body
-					and improve cognitive function.
-				</Text>
+				<Text>{foodTypeFact[mealType]}</Text>
 
 				<View style={styles.form}>
 					<Text style={styles.label}>How many people?</Text>
@@ -35,24 +41,55 @@ const ReservationDetailsScreen = ({ route, navigation }) => {
 					/>
 
 					<Text style={styles.label}>Date</Text>
-					<DateTimePicker
-						value={new Date()}
-						// onChange={(_, date) => setDate(date)}
-						style={{ marginRight: 'auto' }}
+					<Button
+						onPress={() => setShowDatePicker(!showDatePicker)}
+						title='Select Date'
 					/>
+					{showDatePicker && (
+						<DatePicker
+							value={date}
+							onChange={(e, newDate) => {
+								setShowDatePicker(!showDatePicker);
+								if (e.type == 'set') {
+									setDate(newDate);
+								}
+							}}
+							minuteInterval={30}
+							style={{ marginRight: 'auto' }}
+						/>
+					)}
 
 					<Text style={styles.label}>Time</Text>
-					<DateTimePicker
-						mode='time'
-						value={new Date()}
-						// onChange={(_, date) => setTime(date)}
-						style={{ marginRight: 'auto' }}
+					<Button
+						onPress={() => setShowTimePicker(!showDatePicker)}
+						title='Select Time'
 					/>
+					{showTimePicker && (
+						<DatePicker
+							mode='time'
+							value={time}
+							onChange={(e, newTime) => {
+								setShowTimePicker(!showTimePicker);
+								if (e.type == 'set') {
+									setTime(newTime);
+								}
+							}}
+							minuteInterval={30}
+							style={{ marginRight: 'auto' }}
+						/>
+					)}
 
 					<Pressable
 						style={styles.button}
 						onPress={() =>
-							navigation.navigate('ReservationSummary')
+							navigation.navigate('ReservationSummary', {
+								data: {
+									mealType: mealType,
+									date: date.getDate(),
+									time: time.toLocaleTimeString(),
+									people: noOfPeople,
+								},
+							})
 						}
 					>
 						<Text style={styles.btnText}>Select Table</Text>
@@ -96,7 +133,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 24,
 		marginVertical: 16,
 		width: '100%',
-		backgroundColor: '#FF0000',
+		backgroundColor: '#FF8000',
 		marginTop: 64,
 	},
 	btnText: {

@@ -1,16 +1,18 @@
 import { ScrollView, View, Text, StyleSheet, Pressable } from 'react-native';
 
-const ReservationSummaryScreen = ({ navigation }) => {
+const ReservationSummaryScreen = ({ route, navigation }) => {
+	const { data } = route.params;
+
 	const reservationDetails = {
-		noOfPeople: 4,
-		date: '09-10-2023',
-		time: '09:00',
+		mealType: data.mealType,
+		noOfPeople: data.people,
+		date: data.date,
+		time: data.time,
 		selectedTable: 'Indoor - F1 - T4',
 	};
 
 	const userDetails = {
-		name: 'xyz',
-		phoneNo: '1234567890',
+		name: 'Anik',
 		email: 'xyz@gmail.com',
 	};
 
@@ -50,12 +52,10 @@ const ReservationSummaryScreen = ({ navigation }) => {
 			<View style={styles.dataBox}>
 				<View>
 					<Text style={styles.label}>Name</Text>
-					<Text style={styles.label}>Phone No.</Text>
 					<Text style={styles.label}>Email</Text>
 				</View>
 				<View>
 					<Text style={styles.data}>{userDetails.name}</Text>
-					<Text style={styles.data}>{userDetails.phoneNo}</Text>
 					<Text style={styles.data}>{userDetails.email}</Text>
 				</View>
 			</View>
@@ -123,7 +123,11 @@ const ReservationSummaryScreen = ({ navigation }) => {
 			</View>
 			<Pressable
 				style={styles.paymentButton}
-				onPress={() => navigation.navigate('PaymentSummary')}
+				onPress={() =>
+					navigation.navigate('PaymentSummary', {
+						data: reservationDetails,
+					})
+				}
 			>
 				<Text style={styles.buttonText}>Pay Bill</Text>
 			</Pressable>

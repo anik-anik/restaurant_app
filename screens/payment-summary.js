@@ -1,12 +1,13 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native';
 
-const PaymentSummaryScreen = () => {
+const PaymentSummaryScreen = ({ route }) => {
+	const { data } = route.params;
 	const paymentSummary = {
-		foodType: 'Breakfast',
-		noOfPeople: 4,
-		date: '09-10-2023',
-		time: '09:00',
-		selectedTable: 'Indoor - F1 - T4',
+		foodType: data.mealType,
+		noOfPeople: data.noOfPeople,
+		date: data.date,
+		time: data.time,
+		selectedTable: data.selectedTable,
 		amountPaid: 100,
 	};
 
