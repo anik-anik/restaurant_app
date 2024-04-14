@@ -20,7 +20,7 @@ const reducer = (_, action) => {
 	throw new Error('Unknown action.');
 };
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
 	const [email, setEmail] = useState('');
 
 	const bottomSheetModalRef = useRef(null);
@@ -80,7 +80,7 @@ const HomeScreen = () => {
 					{state.currentScreen === 'OTP' ? (
 						<OtpInputScreen dispatcher={dispatch} />
 					) : (
-						<NameInputScreen />
+						<NameInputScreen navigator={navigation} />
 					)}
 				</BottomSheetView>
 			</BottomSheetModal>

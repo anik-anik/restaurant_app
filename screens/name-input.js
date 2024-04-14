@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
-const NameInputScreen = () => {
+const NameInputScreen = ({ navigator }) => {
 	const [name, setName] = useState('');
 	const [disabled, setDisabled] = useState(true);
 
@@ -18,6 +18,8 @@ const NameInputScreen = () => {
 		<View style={styles.container}>
 			<Text style={styles.title}>Personal Details</Text>
 
+			<Text style={styles.label}>What's your name?</Text>
+
 			<TextInput
 				placeholder='Enter name'
 				value={name}
@@ -32,6 +34,8 @@ const NameInputScreen = () => {
 				]}
 				onPress={() => {
 					setDisabled(true);
+					// TODO: Update user's name in database
+					navigator.navigate('Dashboard');
 				}}
 			>
 				<Text style={styles.btnText} disabled={disabled}>
@@ -53,10 +57,16 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		textAlign: 'center',
 	},
+	label: {
+		fontSize: 16,
+		marginTop: 32,
+		marginRight: 'auto',
+	},
 	input: {
 		borderWidth: 1,
 		paddingVertical: 16,
 		paddingHorizontal: 24,
+		marginTop: 16,
 		borderRadius: 16,
 		width: '100%',
 		borderColor: '#EEEEEE',
