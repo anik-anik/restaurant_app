@@ -2,7 +2,14 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { DashboardScreen, HomeScreen, TypeSelectionScreen } from './screens';
+import {
+	DashboardScreen,
+	HomeScreen,
+	PaymentSummaryScreen,
+	ReservationDetailsScreen,
+	ReservationSummaryScreen,
+	TypeSelectionScreen,
+} from './screens';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +35,30 @@ const App = () => {
 						options={{
 							headerShown: true,
 							title: 'Select your Type',
+						}}
+					/>
+					<Stack.Screen
+						name='ReservationDetails'
+						component={ReservationDetailsScreen}
+						options={{
+							headerShown: true,
+							title: 'Reservation Details',
+						}}
+					/>
+					<Stack.Screen
+						name='ReservationSummary'
+						component={ReservationSummaryScreen}
+						options={{
+							headerShown: true,
+							title: 'Reservation Summary',
+						}}
+					/>
+					<Stack.Screen
+						name='PaymentSummary'
+						component={PaymentSummaryScreen}
+						options={{
+							headerShown: true,
+							title: 'Payment Summary',
 						}}
 					/>
 				</Stack.Navigator>
