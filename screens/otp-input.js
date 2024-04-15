@@ -43,6 +43,7 @@ const OtpInputScreen = ({ dispatcher, actualOtp }) => {
 				]}
 				onPress={() => {
 					setDisabled(true);
+					console.log(actualOtp, otp);
 					if (otp == actualOtp) {
 						dispatcher({ type: 'OTP_VERIFIED' });
 					} else {

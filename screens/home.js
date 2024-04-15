@@ -102,7 +102,7 @@ const HomeScreen = ({ route, navigation }) => {
 				onChange={handleSheetChanges}
 			>
 				<BottomSheetView>
-					{state.currentScreen === 'OTP' ? (
+					{state.currentScreen == 'OTP' ? (
 						<OtpInputScreen
 							dispatcher={dispatch}
 							actualOtp={actualOtp}

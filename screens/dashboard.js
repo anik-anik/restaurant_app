@@ -2,11 +2,13 @@ import { View, Text, StyleSheet, Pressable } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Image } from 'expo-image';
 
-const DashoardScreen = ({ navigation }) => {
+const DashoardScreen = ({ route, navigation }) => {
+	const { name, email } = route.params;
+
 	const user = {
 		id: 1,
-		fName: 'Anik',
-		lName: 'Gupta',
+		name: name,
+		email: email,
 	};
 
 	const insets = useSafeAreaInsets();
@@ -28,7 +30,7 @@ const DashoardScreen = ({ navigation }) => {
 				]}
 			>
 				<Text style={[styles.title, { width: 'auto' }]}>
-					Hi, {user.fName} 👋
+					Hi, {user.name} 👋
 				</Text>
 				<Pressable style={styles.button} onPress={handleLogout}>
 					<Text style={styles.btnText}>Logout</Text>
@@ -37,7 +39,12 @@ const DashoardScreen = ({ navigation }) => {
 			<View style={styles.content}>
 				<Pressable
 					style={styles.offerContainer}
-					onPress={() => navigation.navigate('TypeSelection')}
+					onPress={() =>
+						navigation.navigate('TypeSelection', {
+							name: name,
+							email: email,
+						})
+					}
 				>
 					<View style={styles.offerTextbox}>
 						<Text style={styles.offerText1}>

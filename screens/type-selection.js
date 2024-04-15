@@ -1,9 +1,10 @@
 import { Pressable, FlatList, Dimensions } from 'react-native';
 import { Image } from 'expo-image';
 
-const TypeSelectionScreen = ({ navigation }) => {
+const TypeSelectionScreen = ({ route, navigation }) => {
 	const numOfColumns = 2;
 	const size = Dimensions.get('window').width / numOfColumns;
+	const { name, email } = route.params;
 
 	const data = [
 		{
@@ -39,6 +40,8 @@ const TypeSelectionScreen = ({ navigation }) => {
 						navigation.navigate('ReservationDetails', {
 							mealType: item.title,
 							time: item.time,
+							name: name,
+							email: email,
 						});
 					}}
 					style={{ height: size, width: size }}
