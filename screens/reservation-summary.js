@@ -12,8 +12,8 @@ const ReservationSummaryScreen = ({ route, navigation }) => {
 	};
 
 	const userDetails = {
-		name: 'Anik',
-		email: 'xyz@gmail.com',
+		name: data.name,
+		email: data.email,
 	};
 
 	const reservationSummary = {

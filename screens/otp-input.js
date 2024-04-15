@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 import OTPTextView from 'react-native-otp-textinput';
 
-const OtpInputScreen = ({ dispatcher }) => {
+const OtpInputScreen = ({ dispatcher, actualOtp }) => {
 	const [otp, setOtp] = useState('');
 	const [disabled, setDisabled] = useState(true);
+	const [showError, setShowError] = useState(false);
 
 	useEffect(() => {
 		if (otp.length == 4) {
@@ -14,9 +15,18 @@ const OtpInputScreen = ({ dispatcher }) => {
 		}
 	}, [otp]);
 
+	useEffect(() => {
+		console.log('Generated new OTP:', actualOtp);
+	}, []);
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Enter the OTP</Text>
+			{showError && (
+				<Text style={[styles.title, { color: '#FF0000' }]}>
+					Invalid OTP entered.
+				</Text>
+			)}
 
 			<OTPTextView
 				handleTextChange={setOtp}
@@ -33,8 +43,11 @@ const OtpInputScreen = ({ dispatcher }) => {
 				]}
 				onPress={() => {
 					setDisabled(true);
-					// TODO: OTP Checking logic
-					dispatcher({ type: 'OTP_VERIFIED' });
+					if (otp == actualOtp) {
+						dispatcher({ type: 'OTP_VERIFIED' });
+					} else {
+						setShowError(true);
+					}
 				}}
 			>
 				<Text style={styles.btnText} disabled={disabled}>

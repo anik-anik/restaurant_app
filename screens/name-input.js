@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Pressable } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 
-const NameInputScreen = ({ navigator }) => {
+const NameInputScreen = ({ navigator, email }) => {
 	const [name, setName] = useState('');
 	const [disabled, setDisabled] = useState(true);
 
@@ -34,8 +34,10 @@ const NameInputScreen = ({ navigator }) => {
 				]}
 				onPress={() => {
 					setDisabled(true);
-					// TODO: Update user's name in database
-					navigator.navigate('Dashboard');
+					navigator.navigate('Dashboard', {
+						name: name,
+						email: email,
+					});
 				}}
 			>
 				<Text style={styles.btnText} disabled={disabled}>

@@ -10,7 +10,7 @@ const ReservationDetailsScreen = ({ route, navigation }) => {
 	const [date, setDate] = useState(new Date());
 	const [time, setTime] = useState(new Date());
 
-	const { mealType, time: mealTime } = route.params;
+	const { mealType, time: mealTime, email, name } = route.params;
 
 	const foodTypeFact = {
 		Breakfast:
@@ -84,6 +84,8 @@ const ReservationDetailsScreen = ({ route, navigation }) => {
 						onPress={() =>
 							navigation.navigate('ReservationSummary', {
 								data: {
+									name: name,
+									email: email,
 									mealType: mealType,
 									date: date.getDate(),
 									time: time.toLocaleTimeString(),

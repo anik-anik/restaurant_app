@@ -21,6 +21,9 @@ const reducer = (_, action) => {
 };
 
 const HomeScreen = ({ route, navigation }) => {
+	const emailFilter = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+	const actualOtp = Math.floor(1000 + Math.random() * 9000).toString();
+
 	const currScreen = route.params
 		? route.params.currScreen
 			? route.params.currScreen
@@ -28,6 +31,7 @@ const HomeScreen = ({ route, navigation }) => {
 		: 'OTP';
 
 	const [email, setEmail] = useState('');
+	const [showError, setShowError] = useState(false);
 
 	const bottomSheetModalRef = useRef(null);
 
@@ -38,7 +42,11 @@ const HomeScreen = ({ route, navigation }) => {
 	const snapPoints = useMemo(() => ['25%', '50%'], []);
 
 	const handlePresentModalPress = useCallback(() => {
+		// if (emailFilter.test(email)) {
 		bottomSheetModalRef.current?.present();
+		// } else {
+		// setShowError(true);
+		// }
 	}, []);
 
 	const handleSheetChanges = useCallback((index) => {
@@ -53,12 +61,21 @@ const HomeScreen = ({ route, navigation }) => {
 						India's New Take Away and Dining App
 					</Text>
 
+					{showError && (
+						<Text style={[styles.title, { color: '#FF0000' }]}>
+							Invalid e-mail provided.
+						</Text>
+					)}
+
 					<Text style={styles.label}>Log in or Sign up</Text>
 
 					<TextInput
 						placeholder='Enter E-mail ID'
 						value={email}
-						onChangeText={(newEmail) => setEmail(newEmail)}
+						onChangeText={(newEmail) => {
+							setShowError(false);
+							setEmail(newEmail);
+						}}
 						style={styles.input}
 					/>
 
@@ -86,9 +103,12 @@ const HomeScreen = ({ route, navigation }) => {
 			>
 				<BottomSheetView>
 					{state.currentScreen === 'OTP' ? (
-						<OtpInputScreen dispatcher={dispatch} />
+						<OtpInputScreen
+							dispatcher={dispatch}
+							actualOtp={actualOtp}
+						/>
 					) : (
-						<NameInputScreen navigator={navigation} />
+						<NameInputScreen navigator={navigation} email={email} />
 					)}
 				</BottomSheetView>
 			</BottomSheetModal>
